@@ -9,6 +9,7 @@ import tech.yuri.sistema_equipamentos_back_end.dtos.request.UserCriarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.UserResponseDTO;
 import tech.yuri.sistema_equipamentos_back_end.entity.User;
 import tech.yuri.sistema_equipamentos_back_end.exceptions.EmailExistenteException;
+import tech.yuri.sistema_equipamentos_back_end.exceptions.UsuarioNaoEncontradoException;
 import tech.yuri.sistema_equipamentos_back_end.repository.UserRepository;
 
 
@@ -53,6 +54,15 @@ public class UserService {
 
        return resultToDTO;
     }
+    
+    public UserResponseDTO listarPorId(String id){
 
+        var user = userRepository.findById(Long.valueOf(id))
+                                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado"));
+
+      
+        return new UserResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getRole());
+
+    }
 
 }
