@@ -1,5 +1,9 @@
 package tech.yuri.sistema_equipamentos_back_end.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +30,14 @@ public class UserController {
   @PostMapping("/criar")
   public ResponseEntity criar(@RequestBody @Valid UserCriarRequestDTO data ){
         UserService.criar(data);
-        return ResponseEntity.ok("Usuario criado"); 
+
+        Map<String, Object> response = new HashMap<>(); 
+
+        response.put("Message:", "Usuário criado"); 
+        response.put("status", HttpStatus.OK);
+
+
+        return ResponseEntity.ok(response); 
 
     }  
 
