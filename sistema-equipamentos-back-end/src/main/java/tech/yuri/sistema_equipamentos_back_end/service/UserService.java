@@ -10,25 +10,29 @@ import tech.yuri.sistema_equipamentos_back_end.dtos.response.UserResponseDTO;
 import tech.yuri.sistema_equipamentos_back_end.entity.User;
 import tech.yuri.sistema_equipamentos_back_end.exceptions.EmailExistenteException;
 import tech.yuri.sistema_equipamentos_back_end.exceptions.UsuarioNaoEncontradoException;
+import tech.yuri.sistema_equipamentos_back_end.mappers.UserMapper;
 import tech.yuri.sistema_equipamentos_back_end.repository.UserRepository;
 
 
 @Service
 public class UserService {
 
- private final UserRepository userRepository; 
+    private final UserRepository userRepository; 
+    private final UserMapper userMapper; 
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserMapper userMapper, UserRepository userRepository) {
+        this.userMapper = userMapper;
         this.userRepository = userRepository;
     }
+
 
     public void criar(UserCriarRequestDTO data){
 
        userRepository.findByEmail(data.getEmail()) .ifPresent(usuario -> {
             throw new EmailExistenteException("Já existe um usuário com o email: " + data.getEmail());
         });
-
-
+        
+            
         var dataEntity = new User(); 
 
         dataEntity.setId(null);
@@ -42,8 +46,8 @@ public class UserService {
 
 
     public List<UserResponseDTO> listar(){
+        
        var result =  userRepository.findAll();
-
        var resultToDTO = result.stream()
                                .map(usuario -> new UserResponseDTO
                                (usuario.getId(), 
@@ -57,11 +61,8 @@ public class UserService {
     
     public UserResponseDTO listarPorId(String id){
 
-        var user = userRepository.findById(Long.valueOf(id))
-                                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado"));
-
-      
-        return new UserResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getRole());
+        var user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado"));
+        return userMapper.toDTO(user);    
 
     }
 
