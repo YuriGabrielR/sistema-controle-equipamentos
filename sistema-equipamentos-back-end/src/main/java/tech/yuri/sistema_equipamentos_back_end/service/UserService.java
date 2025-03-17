@@ -46,7 +46,7 @@ public class UserService {
 
 
     public List<UserResponseDTO> listar(){
-        
+
        var result =  userRepository.findAll();
        var resultToDTO = result.stream()
                                .map(usuario -> new UserResponseDTO
@@ -61,9 +61,18 @@ public class UserService {
     
     public UserResponseDTO listarPorId(String id){
 
-        var user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado"));
+        var user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado."));
         return userMapper.toDTO(user);    
 
+    }
+
+
+    public void deletar(String id){
+        var idLong = Long.valueOf(id); 
+
+        var usuarioExiste = userRepository.findById(idLong).orElseThrow(()-> new UsuarioNaoEncontradoException("Usuário com ID" + id + " não encontrado."));
+
+        userRepository.deleteById(usuarioExiste.getId());
     }
 
 }
