@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import tech.yuri.sistema_equipamentos_back_end.dtos.request.UserCriarRequestDTO;
+import tech.yuri.sistema_equipamentos_back_end.dtos.request.UserEditarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.UserResponseDTO;
 import tech.yuri.sistema_equipamentos_back_end.entity.User;
 import tech.yuri.sistema_equipamentos_back_end.exceptions.EmailExistenteException;
@@ -65,6 +67,34 @@ public class UserService {
         return userMapper.toDTO(user);    
 
     }
+
+
+    @Transactional
+    public UserResponseDTO editar(String id, UserEditarRequestDTO data) {
+
+    if (data.getEmail() != null && !data.getEmail().isBlank()) {
+        userRepository.findByEmail(data.getEmail())
+            .filter(existingUser -> !existingUser.getId().equals(Long.valueOf(id)))
+            .ifPresent(existingUser -> {
+                throw new EmailExistenteException("Email existente, informe um novo email para prosseguir.");
+            });
+    }
+
+    var user = userRepository.findById(Long.valueOf(id))
+        .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário com ID " + id + " não encontrado."));
+
+    if (data.getEmail() != null && !data.getEmail().isBlank() && !data.getEmail().equals(user.getEmail())) {
+        user.setEmail(data.getEmail());
+    }
+
+    if (data.getNome() != null && !data.getNome().isBlank()) {
+        user.setNome(data.getNome());
+    }
+
+    userRepository.save(user);
+
+    return userMapper.toDTO(user);
+}
 
 
     public void deletar(String id){
