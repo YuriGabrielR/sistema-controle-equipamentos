@@ -21,7 +21,7 @@ public class UserResponseDTO{
         this.role = role;
     }
 
-
+    public UserResponseDTO() {}
 
     public Long getId() {
         return id;
