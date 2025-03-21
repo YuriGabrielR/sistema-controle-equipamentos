@@ -15,6 +15,7 @@ public class Equipamento {
 
     private String localizacaoEstoque;
 
+    @Enumerated(EnumType.STRING)
     private EquipamentoStatus status;
 
     private String modelo;

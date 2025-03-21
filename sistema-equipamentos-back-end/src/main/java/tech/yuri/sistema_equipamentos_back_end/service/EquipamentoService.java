@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoCriarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.EquipamentoResponseDTO;
+import tech.yuri.sistema_equipamentos_back_end.entity.Equipamento;
 import tech.yuri.sistema_equipamentos_back_end.repository.EquipamentoRepository;
 
 
@@ -35,6 +37,19 @@ public class EquipamentoService{
 
         return resultadoToDTO;
     }    
+
+    public void criar(EquipamentoCriarRequestDTO data){
+         var dataEntity = new Equipamento(); 
+         dataEntity.setId(null); 
+         dataEntity.setNome(data.getNome()); 
+         dataEntity.setLocalizacaoEstoque(data.getLocalizacaoEstoque());
+         dataEntity.setStatus(data.getStatus());
+         dataEntity.setModelo(data.getModelo());
+         dataEntity.setNumeroSerie(data.getNumeroSerie());
+
+         equipamentoRepository.save(dataEntity);   
+         
+    }
 
 
 }
