@@ -40,7 +40,7 @@ public class UserController {
 
         Map<String, Object> response = new HashMap<>(); 
 
-        response.put("Message:", "Usuário criado"); 
+        response.put("Message", "Usuário criado"); 
         response.put("status", HttpStatus.OK);
 
 
