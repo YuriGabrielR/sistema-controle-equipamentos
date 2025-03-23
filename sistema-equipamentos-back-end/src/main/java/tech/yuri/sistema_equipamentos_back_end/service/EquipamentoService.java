@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoCriarRequestDTO;
+import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoEditarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.EquipamentoResponseDTO;
 import tech.yuri.sistema_equipamentos_back_end.entity.Equipamento;
 import tech.yuri.sistema_equipamentos_back_end.exceptions.EquipamentoNaoEncontradoException;
@@ -79,6 +81,41 @@ public class EquipamentoService{
     }
 
 
+    @Transactional
+    public EquipamentoResponseDTO editar(String id, EquipamentoEditarRequestDTO data){
+        var idEntity = Long.valueOf(id);
+
+        var equipamentoExiste = equipamentoRepository
+                .findById(idEntity)
+                .orElseThrow(()-> new EquipamentoNaoEncontradoException(String.format("Equipamento com o ID %s não encontrado", id)));
+
+
+        if (data.getNumeroSerie() != null &&
+                !data.getNumeroSerie().equals(equipamentoExiste.getNumeroSerie()) &&
+                equipamentoRepository.existsByNumeroSerie(data.getNumeroSerie())) {
+
+            throw new NumeroDeSerieExistenteException("Já existe um equipamento cadastrado com o número de série: " + data.getNumeroSerie());
+        }
+
+        if (data.getNome() != null) {
+            equipamentoExiste.setNome(data.getNome());
+        }
+        if (data.getLocalizacaoEstoque() != null) {
+            equipamentoExiste.setLocalizacaoEstoque(data.getLocalizacaoEstoque());
+        }
+        if (data.getStatus() != null) {
+            equipamentoExiste.setStatus(data.getStatus());
+        }
+        if (data.getModelo() != null) {
+            equipamentoExiste.setModelo(data.getModelo());
+        }
+
+        equipamentoRepository.save(equipamentoExiste);
+
+        return equipamentoMapper.toDTO(equipamentoExiste);
+
+
+    }
 
     public void deletar(String id){
         var idEntity = Long.valueOf(id);
