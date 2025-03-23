@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoCriarRequestDTO;
+import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoEditarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.EquipamentoResponseDTO;
 import tech.yuri.sistema_equipamentos_back_end.service.EquipamentoService;
 
@@ -19,7 +20,7 @@ import tech.yuri.sistema_equipamentos_back_end.service.EquipamentoService;
 @RequestMapping("/equipamentos")
 public class EquipamentoController {
 
-    private final EquipamentoService equipamentoService; 
+    private final EquipamentoService equipamentoService;
 
     public EquipamentoController(EquipamentoService equipamentoService) {
         this.equipamentoService = equipamentoService;
@@ -56,6 +57,18 @@ public class EquipamentoController {
         response.put("data", result);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(response);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity editar (@PathVariable String id, @RequestBody @Valid EquipamentoEditarRequestDTO data){
+        var result = equipamentoService.editar(id, data);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Equipamento editado com sucesso!");
+        response.put("data", result );
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
