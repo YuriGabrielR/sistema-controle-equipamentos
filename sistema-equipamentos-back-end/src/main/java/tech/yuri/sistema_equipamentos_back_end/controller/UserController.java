@@ -83,7 +83,7 @@ public class UserController {
         response.put("Message", "Usuário deletado com sucesso."); 
         response.put("Status", "202");
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

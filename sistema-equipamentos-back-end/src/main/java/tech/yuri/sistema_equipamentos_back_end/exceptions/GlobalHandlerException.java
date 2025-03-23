@@ -20,9 +20,9 @@ public class GlobalHandlerException {
 public ResponseEntity<Object> handleUsuarioNaoEncontradoException(UsuarioNaoEncontradoException ex){
     
     Map<String, Object> response = new HashMap<>();
-  
-    response.put("error", ex.getMessage());
-    response.put("Message", "usuário não encontrado");
+
+    response.put("message", ex.getMessage());
+    response.put("error", true);
 
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 }
@@ -33,8 +33,8 @@ public ResponseEntity<Object> handleEmailExisteException(EmailExistenteException
 
     Map<String, Object> response = new HashMap<>();
 
-    response.put("Error", "Erro no email");
-    response.put("Message", ex.getMessage());
+    response.put("message", ex.getMessage());
+    response.put("error", true);
 
     return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 }
@@ -51,10 +51,34 @@ public ResponseEntity<Object> handleValidationsContraints (MethodArgumentNotVali
                                     .map(error -> error.getDefaultMessage())
                                     .collect(Collectors.toList());
 
-    response.put("Message", errorMessages);
-    response.put("Error", "Erro de validação");
+    response.put("message", errorMessages);
+    response.put("error", true);
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); 
+
+}
+
+@ExceptionHandler(EquipamentoNaoEncontradoException.class)
+ public ResponseEntity<Object> handleEquipamentoNaoEncontrado(EquipamentoNaoEncontradoException ex) {
+
+    Map<String, Object> response = new HashMap<>();
+
+    response.put("message", ex.getMessage());
+    response.put("error", true);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+}
+
+
+@ExceptionHandler(NumeroDeSerieExistenteException.class)
+    public ResponseEntity<Object> handleNumeroDeSerieExistente(NumeroDeSerieExistenteException ex){
+
+    Map<String, Object> response = new HashMap<>();
+
+    response.put("message", ex.getMessage());
+    response.put("error", true);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
 }
 
