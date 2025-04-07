@@ -3,11 +3,9 @@ package tech.yuri.sistema_equipamentos_back_end.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoCriarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.request.EquipamentoEditarRequestDTO;
 import tech.yuri.sistema_equipamentos_back_end.dtos.response.EquipamentoResponseDTO;

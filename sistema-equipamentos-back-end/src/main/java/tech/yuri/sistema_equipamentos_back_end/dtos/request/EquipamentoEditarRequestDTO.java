@@ -1,7 +1,6 @@
 package tech.yuri.sistema_equipamentos_back_end.dtos.request;
 
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import tech.yuri.sistema_equipamentos_back_end.enums.EquipamentoStatus;
