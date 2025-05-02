@@ -1,0 +1,19 @@
+<div class="container-sidebar">
+  <ul>
+    <li routerLinkActive="active" *ngFor="let item of itensNav">
+      <a routerLink={{item.linkTo}}>
+        <mat-icon>{{item.icon}}</mat-icon>
+        <p>{{item.label}}</p>
+
+      </a>
+    </li>
+  </ul>
+
+
+  <div class="footer-sidebar">
+    <div class="footer-box" routerLink="/usuario/:id">
+      <mat-icon>account_circle</mat-icon>
+      <p>Meu perfil</p>
+    </div>
+  </div>
+</div>
