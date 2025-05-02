@@ -1,52 +1,42 @@
-package tech.yuri.sistema_equipamentos_back_end.entity; 
+package tech.yuri.sistema_equipamentos_back_end.dtos.request; 
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import tech.yuri.sistema_equipamentos_back_end.enums.ManutencaoStatus;
 import tech.yuri.sistema_equipamentos_back_end.enums.ManutencaoTipos;
 
 
 
-@Entity
-@Table(name="tb_manutencao")
-public class Manutencao {
+public class ManutencaoCriarRequestDTO {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id; 
+    @NotNull(message="O campo Data Início da Manutenção não pode ser vazio ")
+    @NotBlank(message="O campo Data Início da Manutenção não pode conter espaços vazios ")
+    private LocalDate dataInicioManutencao;
 
-
-    private LocalDate dataInicioManutencao; 
-
+    
+    @NotNull(message="O campo Data Fim da Manutenção não pode ser vazio ")
+    @NotBlank(message="O campo Data Fim da Manutenção não pode conter espaços vazios ")
     private LocalDate dataFimManutencao;
 
-    @Enumerated(EnumType.ORDINAL)
+
+    @NotNull(message="O campo Tipo de Manutenção não pode ser vazio")
     private ManutencaoTipos tipoManutencao; 
 
-    private String responsavel;
+    @NotNull(message="O campo RESPONSÁVEL pela Manutenção não pode ser vazio")
+    private String responsavel; 
 
+    @NotNull(message="O campo CUSTO da manutenção não pode ser vazio")
     private Double custo; 
 
-    @Enumerated(EnumType.ORDINAL)
+    @NotNull(message="O campo Status da manutenção não pode ser vazio")
     private ManutencaoStatus statusManutencao; 
-
 
     private String observacoes; 
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public ManutencaoCriarRequestDTO() {}
 
     public LocalDate getDataInicioManutencao() {
         return dataInicioManutencao;
@@ -72,13 +62,6 @@ public class Manutencao {
         this.tipoManutencao = tipoManutencao;
     }
 
-    public String getResponsavel() {
-        return responsavel;
-    }
-
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
-    }
 
     public Double getCusto() {
         return custo;
@@ -104,8 +87,13 @@ public class Manutencao {
         this.observacoes = observacoes;
     }
 
+    public String getResponsavel() {
+        return responsavel;
+    }
 
-    
+    public void setResponsavel(String responsavel) {
+        this.responsavel = responsavel;
+    }
 
 
 }

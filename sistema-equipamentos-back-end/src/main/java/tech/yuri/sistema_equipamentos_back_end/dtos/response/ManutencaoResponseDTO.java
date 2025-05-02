@@ -1,44 +1,51 @@
-package tech.yuri.sistema_equipamentos_back_end.entity; 
+package tech.yuri.sistema_equipamentos_back_end.dtos.response; 
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import tech.yuri.sistema_equipamentos_back_end.enums.ManutencaoStatus;
 import tech.yuri.sistema_equipamentos_back_end.enums.ManutencaoTipos;
 
 
 
-@Entity
-@Table(name="tb_manutencao")
-public class Manutencao {
+public class ManutencaoResponseDTO{
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id; 
 
-
-    private LocalDate dataInicioManutencao; 
+    private LocalDate dataInicioManutencao;
 
     private LocalDate dataFimManutencao;
 
-    @Enumerated(EnumType.ORDINAL)
     private ManutencaoTipos tipoManutencao; 
 
-    private String responsavel;
+    private String responsavel; 
+
 
     private Double custo; 
 
-    @Enumerated(EnumType.ORDINAL)
     private ManutencaoStatus statusManutencao; 
 
-
     private String observacoes; 
+
+
+    
+
+    public ManutencaoResponseDTO() {
+    }
+
+    public ManutencaoResponseDTO(
+        Long id, LocalDate dataInicioManutencao, LocalDate dataFimManutencao, ManutencaoTipos tipoManutencao,String responsavel, Double custo,ManutencaoStatus statusManutencao, String observacoes) {
+       
+        this.id = id;
+        this.dataInicioManutencao = dataInicioManutencao;
+        this.dataFimManutencao = dataFimManutencao;
+        this.tipoManutencao = tipoManutencao;
+        this.responsavel = responsavel;
+        this.custo = custo;
+        this.statusManutencao = statusManutencao;
+        this.observacoes = observacoes;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -106,6 +113,5 @@ public class Manutencao {
 
 
     
-
 
 }
