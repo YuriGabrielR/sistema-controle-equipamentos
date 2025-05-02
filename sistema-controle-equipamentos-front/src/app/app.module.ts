@@ -21,7 +21,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     ManutencoesComponent,
     UsuariosComponent,
     MeuPerfilComponent,
-    DashboardComponent  ],
+    DashboardComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,

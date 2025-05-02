@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 
-interface SidebarType{
+export interface SidebarType{
 
-  icon: String;
-  linkTo: String;
-  label: String;
+  icon: string;
+  linkTo: string;
+  label: string;
 }
 
 
@@ -19,12 +18,7 @@ interface SidebarType{
 
 export class SidebarComponent {
 
-  constructor(private router: Router){}
-
-  isActiveURL(route: string): boolean{
-    return this.router.url.includes(route);
-
-  }
+  isMobile: boolean = false;
 
   itensNav: SidebarType[] = [
 
@@ -34,6 +28,7 @@ export class SidebarComponent {
     {icon: 'supervised_user_circle', label:'Usuários', linkTo:'/usuarios'}
   ]
 
-
-
+  toggleMenu() {
+    this.isMobile = !this.isMobile;
+  }
 }
